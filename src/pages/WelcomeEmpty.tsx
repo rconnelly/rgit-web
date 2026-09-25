@@ -45,7 +45,7 @@ export function WelcomeEmpty({ user, error, children }: { user: SessionUser | nu
             <p className="text-foreground mt-4 max-w-md text-base leading-relaxed">
               {user
                 ? "Create a repository. Push over SSH. Review in the browser."
-                : "Self-hosted git. Browse, blame, merge. SSH. Invite only. No email."}
+                : "Browse, blame, merge. SSH. Unlimited public or private repos. CI and Builds included. Invite only. No email. MIT License."}
             </p>
             {user ? (
               <div className="mt-6">
