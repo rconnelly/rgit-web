@@ -26,6 +26,8 @@ test("systemd unit runs the prebuilt server bundle", () => {
   expect(unit).toContain("ReadWritePaths=/var/lib/rgit-web /var/cache/rgit-web /var/lib/rabun-git");
   expect(unit).toContain("SupplementaryGroups=rabun-git");
   expect(unit).toContain("UMask=0002");
+  expect(unit).toContain("GIT_CONFIG_KEY_0=safe.directory");
+  expect(unit).toContain("GIT_CONFIG_VALUE_0=*");
 });
 
 test("install writes a forge .env next to WorkingDirectory", () => {
@@ -49,6 +51,8 @@ test("bootstrap and install require the rabun-git group before starting the unit
   expect(helper).toContain("usermod -aG rabun-git rgit-web");
   expect(helper).toContain("ensure_forge_group_write");
   expect(helper).toContain("chmod 2770");
+  expect(helper).toContain("ensure_git_safe_directory");
+  expect(helper).toContain("safe.directory");
   expect(helper).toContain("216/GROUP");
   expect(bootstrap).toContain("ensure_rgit_web_unix_account");
   expect(bootstrap).not.toContain("warning: rabun-git user is missing");

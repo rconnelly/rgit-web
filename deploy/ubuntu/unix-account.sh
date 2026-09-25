@@ -23,6 +23,7 @@ ensure_rgit_web_unix_account() {
   fi
   usermod -aG rabun-git rgit-web
   ensure_forge_group_write
+  ensure_git_safe_directory
 }
 
 # Group-write the forge paths rgit-web mutates (repo create, tokens, visibility).
@@ -42,4 +43,16 @@ ensure_forge_group_write() {
   done
   chmod 0660 "$root"/tokens.yaml "$root"/access.yaml "$root"/visibility.yaml 2>/dev/null || true
   chmod 0640 "$root"/users.yaml 2>/dev/null || true
+}
+
+# Git 2.35+ refuses repos whose directory uid ≠ the process uid. Serve is
+# rabun-git; web create is rgit-web. `*` is the documented wildcard.
+ensure_git_safe_directory() {
+  if ! command -v git >/dev/null; then
+    return 0
+  fi
+  if git config --system --get-all safe.directory 2>/dev/null | grep -qx '\*'; then
+    return 0
+  fi
+  git config --system --add safe.directory '*'
 }
