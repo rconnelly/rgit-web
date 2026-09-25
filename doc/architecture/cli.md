@@ -20,6 +20,8 @@ Tests inject `setRgitRunner` so `bun test` does not need a forge.
 | HTTP | CLI |
 | --- | --- |
 | `POST /api/auth/login` | `auth login --user --password` (anonymous) |
+| `GET /api/auth/signup` | `{ enabled }` from whether `RGIT_WEB_INVITE_CODE` is set |
+| `POST /api/auth/signup` | invite check in-process, then `auth register --user --password` (anonymous) |
 | `GET /api/auth/me` | `auth whoami` |
 | `POST /api/auth/logout` | `auth logout` |
 | `GET/POST /api/repos` | `repo list` / `repo create [--public]` |

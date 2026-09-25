@@ -12,7 +12,7 @@ The look matches the Zola **DevLab** theme used by `rgit view` and [rgit.rs](htt
 
 ## Develop
 
-Needs `rgit` / `rabun-git` on `PATH` (or `RGIT_BIN`), a forge root (`RABUN_GIT_ROOT`), and a user with a web password (`rgit user passwd NAME --password …`).
+Needs `rgit` / `rabun-git` on `PATH` (or `RGIT_BIN`), a forge root (`RABUN_GIT_ROOT`), and either an existing web password or `RGIT_WEB_INVITE_CODE` for `/signup`.
 
 ```bash
 bun install
@@ -20,7 +20,7 @@ bun test
 bun run dev
 ```
 
-Open http://127.0.0.1:3010. Sign in with the forge user and password.
+Open http://127.0.0.1:3010. Sign in with the forge user and password, or set `RGIT_WEB_INVITE_CODE` and use `/signup`.
 
 ```bash
 export RABUN_GIT_ROOT=/path/to/data/git

@@ -53,6 +53,8 @@ test("bootstrap and install require the rabun-git group before starting the unit
   expect(helper).toContain("chmod 2770");
   expect(helper).toContain("ensure_git_safe_directory");
   expect(helper).toContain("safe.directory");
+  expect(helper).toContain('chmod 0660 "$root"/tokens.yaml');
+  expect(helper).toContain('"$root"/users.yaml');
   expect(helper).toContain("216/GROUP");
   expect(bootstrap).toContain("ensure_rgit_web_unix_account");
   expect(bootstrap).not.toContain("warning: rabun-git user is missing");
@@ -62,6 +64,7 @@ test("bootstrap tells the operator to set a web password inside rabun-git shell"
   const bootstrap = readFileSync(join(dir, "bootstrap.sh"), "utf8");
   expect(bootstrap).toContain("operator: rabun-git shell");
   expect(bootstrap).toContain("rabun-git user passwd NAME --password");
+  expect(bootstrap).toContain("RGIT_WEB_INVITE_CODE");
   expect(bootstrap).not.toContain("rgit user passwd USER");
 });
 

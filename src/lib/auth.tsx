@@ -7,6 +7,7 @@ interface AuthState {
   loading: boolean;
   refresh: () => Promise<void>;
   login: (user: string, password: string) => Promise<void>;
+  signup: (user: string, password: string, invite: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -36,6 +37,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const data = await api<{ user: SessionUser }>("/api/auth/login", {
           method: "POST",
           body: JSON.stringify({ user: name, password }),
+        });
+        setUser(data.user);
+      },
+      async signup(name, password, invite) {
+        const data = await api<{ user: SessionUser }>("/api/auth/signup", {
+          method: "POST",
+          body: JSON.stringify({ user: name, password, invite }),
         });
         setUser(data.user);
       },

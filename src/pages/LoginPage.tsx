@@ -61,6 +61,11 @@ export function LoginPage() {
               {pending ? "Signing in…" : "Sign in"}
             </Button>
             <p className="text-muted-foreground text-sm">
+              Need an account?{" "}
+              <Link to="/signup" className="underline">
+                Sign up with an invite code
+              </Link>
+              .{" "}
               <Link to="/" className="underline">
                 Browse public repositories
               </Link>{" "}

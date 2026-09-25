@@ -51,9 +51,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </Button>
               </>
             ) : (
-              <Button variant="outline" size="sm" asChild>
-                <Link to="/login">Sign in</Link>
-              </Button>
+              <>
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/login">Sign in</Link>
+                </Button>
+                <Button size="sm" asChild>
+                  <Link to="/signup">Sign up</Link>
+                </Button>
+              </>
             )}
           </div>
         </div>

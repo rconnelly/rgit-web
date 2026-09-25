@@ -44,6 +44,15 @@ exit
 
 `user add … --password` also works for a new forge login. SSH clone still uses keys; this password is only for the website.
 
+To open `/signup`, set an invite in `/etc/rgit-web/rgit-web.env` and restart the unit. Unset keeps sign-up closed. No email is collected.
+
+```bash
+# /etc/rgit-web/rgit-web.env
+RGIT_WEB_INVITE_CODE='a-long-random-string'
+sudo chmod 0660 /var/lib/rabun-git/users.yaml
+sudo systemctl restart rgit-web
+```
+
 The website talks to **this host’s** forge (`RABUN_GIT_ROOT=/var/lib/rabun-git`). `rgit origin …` on a laptop is a different remote (for example damascus) and does not create a web.rgit.rs login.
 
 ## 3. Later deploys
@@ -66,7 +75,7 @@ Inspect first:
 | Path | Role |
 | --- | --- |
 | `/opt/rgit-web/current` | Symlink to the active release |
-| `/etc/rgit-web/rgit-web.env` | Bind, `RGIT_BIN`, cookie flags |
+| `/etc/rgit-web/rgit-web.env` | Bind, `RGIT_BIN`, cookie flags, `RGIT_WEB_INVITE_CODE` |
 | `/etc/rabun-git/rabun-git.toml` | Forge config the CLI reads |
 | `/var/lib/rabun-git` | Users, tokens, bare repos (owned by `rabun-git`, group-writable) |
 | `/etc/caddy/sites-enabled/rgit-web.caddy` | Virtual host → `127.0.0.1:3010` |

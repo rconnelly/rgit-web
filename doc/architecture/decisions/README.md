@@ -13,6 +13,7 @@ Each file is one accepted choice. Numbers increase; do not reuse a number. Statu
 | [0005](./0005-web-auth-is-tokens-ssh-stays-keys.md) | Web auth is passwords and tokens; SSH stays keys | accepted |
 | [0006](./0006-public-repos-anonymous-read.md) | Public repos are anonymous-readable | accepted |
 | [0007](./0007-same-host-group-access.md) | Same-host group access to the forge root | accepted |
+| [0008](./0008-invite-gated-signup.md) | Invite-gated web sign-up; no email | accepted |
 
 ## Template
 

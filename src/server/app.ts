@@ -1,5 +1,7 @@
 import { clearSessionCookie, getUserFromRequest, requireUser, sessionCookie, tokenFromRequest } from "./auth";
+import { getConfig } from "./env";
 import { errorResponse, HttpError, isHttpError, json, readBody } from "./http";
+import { inviteMatches } from "./invite";
 import { rgit } from "./rgit";
 
 type RepoParams = { owner: string; name: string };
@@ -13,6 +15,20 @@ function actorOpts(req: Request): { token?: string; anonymous?: boolean } {
   const token = tokenFromRequest(req);
   if (token) return { token };
   return { anonymous: true };
+}
+
+async function sessionFromRgit(args: string[]): Promise<Response> {
+  const session = (await rgit({ args, anonymous: true })) as {
+    token?: string;
+    user: string;
+    admin: boolean;
+    actor: string;
+  };
+  if (!session.token) throw new HttpError(502, "rgit did not return a token");
+  return json(
+    { user: { user: session.user, admin: session.admin, actor: session.actor } },
+    { headers: { "Set-Cookie": sessionCookie(session.token) } },
+  );
 }
 
 async function handle(fn: () => Promise<Response>): Promise<Response> {
@@ -45,15 +61,31 @@ export function buildRoutes(): Record<string, unknown> {
           if (!body.user?.trim() || !body.password) {
             throw new HttpError(400, "user and password are required");
           }
-          const session = (await rgit({
-            args: ["auth", "login", "--user", body.user.trim(), "--password", body.password],
-            anonymous: true,
-          })) as { token?: string; user: string; admin: boolean; actor: string };
-          if (!session.token) throw new HttpError(502, "rgit did not return a token");
-          return json(
-            { user: { user: session.user, admin: session.admin, actor: session.actor } },
-            { headers: { "Set-Cookie": sessionCookie(session.token) } },
-          );
+          return sessionFromRgit(["auth", "login", "--user", body.user.trim(), "--password", body.password]);
+        }),
+    },
+    "/api/auth/signup": {
+      GET: () => json({ enabled: Boolean(getConfig().inviteCode) }),
+      POST: (req: Request) =>
+        handle(async () => {
+          if (tokenFromRequest(req)) {
+            throw new HttpError(400, "already signed in");
+          }
+          const body = await readBody<{ user?: string; password?: string; invite?: string }>(req);
+          const name = body.user?.trim() ?? "";
+          const password = body.password ?? "";
+          const invite = body.invite ?? "";
+          if (!name || !password || !invite.trim()) {
+            throw new HttpError(400, "user, password, and invite code are required");
+          }
+          const expected = getConfig().inviteCode;
+          if (!expected) {
+            throw new HttpError(403, "Sign-up is not open yet");
+          }
+          if (!inviteMatches(invite.trim(), expected)) {
+            throw new HttpError(403, "Invalid invite code");
+          }
+          return sessionFromRgit(["auth", "register", "--user", name, "--password", password]);
         }),
     },
     "/api/auth/logout": {

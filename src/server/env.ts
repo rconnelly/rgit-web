@@ -6,6 +6,8 @@ export interface AppConfig {
   rgitBin: string | undefined;
   rgitConfig: string | undefined;
   secureCookies: boolean;
+  /** Trimmed invite code. Empty/unset means sign-up is closed. */
+  inviteCode: string | undefined;
 }
 
 function inferListen(env: NodeJS.ProcessEnv): AppConfig["listen"] {
@@ -27,6 +29,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     rgitBin: env.RGIT_BIN?.trim() || env.RABUN_GIT_BIN?.trim() || undefined,
     rgitConfig: env.RABUN_GIT_CONFIG?.trim() || env.RGIT_CONFIG?.trim() || undefined,
     secureCookies,
+    inviteCode: env.RGIT_WEB_INVITE_CODE?.trim() || undefined,
   };
 }
 

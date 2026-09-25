@@ -18,4 +18,4 @@ HTTP Basic against the SSH daemon was also a poor fit: `serve` is russh on 2222,
 
 ## Consequences
 
-Users who only clone never need a password. Web users need `rgit user passwd` (or `--password` at add). Losing the cookie means signing in again; revoke with `rgit auth logout` or deleting the token hash. Password reset is an operator CLI task until a later command exists.
+Users who only clone never need a password. Web users need `rgit user passwd`, `--password` at add, or invite-gated `/signup` (`auth register`). Losing the cookie means signing in again; revoke with `rgit auth logout` or deleting the token hash. Password reset is an operator CLI task until a later command exists.

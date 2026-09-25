@@ -7,6 +7,7 @@ import { CommitPage } from "@/pages/CommitPage";
 import { CommitsPage } from "@/pages/CommitsPage";
 import { HomePage } from "@/pages/HomePage";
 import { LoginPage } from "@/pages/LoginPage";
+import { SignupPage } from "@/pages/SignupPage";
 import { RepoLayout } from "@/pages/RepoLayout";
 import { RequestPage } from "@/pages/RequestPage";
 import { RequestsPage } from "@/pages/RequestsPage";
@@ -21,6 +22,7 @@ export function App() {
     <AppShell>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/:owner/:name" element={<RepoLayout />}>
           <Route index element={<TreePage />} />

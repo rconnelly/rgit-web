@@ -12,14 +12,15 @@ rgit maps every CLI invocation to `Actor::{Operator, User, Anonymous}`.
 | --- | --- | --- |
 | Operator | Local CLI with no `--token` / `--anonymous` | **Never.** Would list every repo and skip ACL. |
 | User | `--token rgit_…` | Signed-in session |
-| Anonymous | `--anonymous` | Public browse, login itself |
+| Anonymous | `--anonymous` | Public browse, login, invite-gated sign-up |
 
 If the binary is missing a flag, rgit treats the spawn as Operator. That is why `actorOpts` always passes one of `--token` or `--anonymous`.
 
 ## Passwords and tokens
 
-- Web passwords are argon2id hashes on the user record in `users.yaml`. Set with `rgit user add … --password` or `rgit user passwd`.
+- Web passwords are argon2id hashes on the user record in `users.yaml`. Set with `rgit user add … --password`, `rgit user passwd`, or invite-gated `rgit auth register` from `/signup`.
 - `rgit auth login --user … --password …` (run as `--anonymous`) verifies the hash and writes a bearer token.
+- `rgit --anonymous auth register --user … --password …` creates a non-admin user and issues a token. rgit-web only calls it after `RGIT_WEB_INVITE_CODE` matches. Unset invite keeps sign-up closed.
 - Tokens are `rgit_` plus two UUID hex strings. Only a **SHA-256 hash** is stored in `tokens.yaml`.
 - `rgit auth whoami` / `rgit auth logout` require `--token`.
 
