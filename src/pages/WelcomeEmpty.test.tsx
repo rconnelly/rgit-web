@@ -17,7 +17,11 @@ test("guest welcome sells the forge and points to sign-up", () => {
   expect(html).toContain("Clone");
   expect(html).toContain("Invite-only");
   expect(html).toContain("acme/ledger");
-  expect(html).toContain("ssh://git@host:2222/acme/ledger");
+  expect(html).toContain("SSH.");
+  expect(html).not.toContain("2222");
+  expect(html).toContain("ssh://git@host/acme/ledger");
+  expect(html).toContain("Rgit is Git with etiquette.");
+  expect(html).toContain("https://docs.rgit.rs");
 });
 
 test("signed-in welcome points at new repository", () => {
@@ -30,5 +34,6 @@ test("signed-in welcome points at new repository", () => {
   );
   expect(html).toContain("First repo. Then the work.");
   expect(html).toContain("#new-repo");
+  expect(html).toContain("Rgit is Git with etiquette.");
   expect(html).not.toContain("Create an account");
 });

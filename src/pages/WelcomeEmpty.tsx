@@ -1,16 +1,17 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router";
-import { FolderTree, GitPullRequest, KeyRound, Terminal } from "lucide-react";
+import { ArrowRight, FolderTree, GitPullRequest, KeyRound, Terminal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
 import type { SessionUser } from "@/lib/types";
 import hero from "../assets/welcome-hero.jpg";
+import logo from "../logo.svg";
 
 const features = [
   { icon: FolderTree, title: "Browse", copy: "Trees, blobs, blame. Every line attributed." },
   { icon: GitPullRequest, title: "Requests", copy: "Review, approve, merge. One ACL with SSH." },
-  { icon: Terminal, title: "Clone", copy: "Keys on 2222. Passwords stay in the browser." },
+  { icon: Terminal, title: "Clone", copy: "Keys over SSH. Passwords stay in the browser." },
   { icon: KeyRound, title: "Invite-only", copy: "No email. Public or private, your call." },
 ];
 
@@ -33,17 +34,18 @@ export function WelcomeEmpty({ user, error, children }: { user: SessionUser | nu
           alt="Forest peaks at a gold horizon, reflected in still water."
           className="absolute inset-0 size-full object-cover object-[center_40%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-background/15 dark:from-background/92 dark:via-background/65" />
+        <div className="absolute inset-0 bg-background/92 sm:hidden dark:bg-background/90" />
+        <div className="absolute inset-0 hidden bg-gradient-to-r from-background/95 via-background/70 to-background/15 sm:block dark:from-background/92 dark:via-background/65" />
         <div className="relative grid gap-10 p-6 sm:p-8 lg:grid-cols-[1fr_minmax(0,22rem)] lg:items-center lg:p-10">
           <div className="max-w-xl">
             <p className="text-muted-foreground mb-2 text-xs font-semibold tracking-[0.12em] uppercase">Forge</p>
             <h1 className="text-4xl leading-[1.05] sm:text-5xl">
               {user ? "First repo. Then the work." : "Code. Review. Land."}
             </h1>
-            <p className="text-muted-foreground mt-4 max-w-md text-base leading-relaxed">
+            <p className="text-foreground mt-4 max-w-md text-base leading-relaxed">
               {user
                 ? "Create a repository. Push over SSH. Review in the browser."
-                : "Self-hosted git. Browse, blame, merge. SSH on 2222. Invite only. No email."}
+                : "Self-hosted git. Browse, blame, merge. SSH. Invite only. No email."}
             </p>
             {user ? (
               <div className="mt-6">
@@ -78,6 +80,21 @@ export function WelcomeEmpty({ user, error, children }: { user: SessionUser | nu
           </div>
         </div>
       </section>
+
+      <a
+        href="https://docs.rgit.rs"
+        className="group hover:border-gold/60 hover:bg-accent/40 flex items-start gap-4 rounded-2xl border border-gold/35 bg-card px-5 py-5 sm:items-center sm:px-6"
+      >
+        <img src={logo} alt="" className="size-12 shrink-0 rounded-full" />
+        <div className="min-w-0 flex-1">
+          <p className="text-gold text-xs font-semibold tracking-[0.12em] uppercase">The tool</p>
+          <p className="mt-1 text-lg font-semibold">Rgit is Git with etiquette.</p>
+          <p className="text-muted-foreground mt-1 max-w-2xl text-sm leading-relaxed">
+            Self-hosted forge. SSH remotes. Users, keys, merge requests — from the CLI.
+          </p>
+        </div>
+        <ArrowRight className="text-muted-foreground group-hover:text-foreground mt-1 size-5 shrink-0 sm:mt-0" aria-hidden />
+      </a>
 
       <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {features.map(({ icon: Icon, title, copy }) => (
@@ -149,7 +166,7 @@ function ForgePreview() {
       </div>
 
       <div className="bg-code absolute -bottom-3 left-3 right-6 truncate rounded-md border px-3 py-1.5 font-mono text-[10px]">
-        ssh://git@host:2222/acme/ledger
+        ssh://git@host/acme/ledger
       </div>
     </div>
   );
