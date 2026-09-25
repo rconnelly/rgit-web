@@ -7,6 +7,7 @@ import { CommitPage } from "@/pages/CommitPage";
 import { CommitsPage } from "@/pages/CommitsPage";
 import { HomePage } from "@/pages/HomePage";
 import { DeviceLoginPage } from "@/pages/DeviceLoginPage";
+import { LoginPage } from "@/pages/LoginPage";
 import { SignupPage } from "@/pages/SignupPage";
 import { RepoLayout } from "@/pages/RepoLayout";
 import { RequestPage } from "@/pages/RequestPage";
