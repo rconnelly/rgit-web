@@ -28,6 +28,16 @@ export RABUN_GIT_CONFIG=/path/to/rabun-git.toml
 rgit user add ada --admin --password 'correct-horse'
 ```
 
+## Docs
+
+| Page | What it covers |
+| --- | --- |
+| [Documentation](doc/README.md) | Index |
+| [Develop](doc/develop.md) | Local run, env, tests |
+| [Ubuntu deploy](doc/deploy-ubuntu.md) | Pack, bootstrap, Caddy, systemd |
+| [Architecture](doc/architecture/README.md) | Split with rgit, request path |
+| [Decisions](doc/architecture/decisions/README.md) | Why no DB, CLI backend, tokens vs keys, … |
+
 ## Deploy (Ubuntu)
 
 Same air-gapped flow as Burton: pack on Linux, scp, install. The droplet never talks to GitHub.
