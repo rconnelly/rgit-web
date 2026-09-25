@@ -6,7 +6,7 @@ rgit-web is the GitHub-style browser for [rgit](https://github.com/rconnelly/rgi
 
 | Page | What it covers |
 | --- | --- |
-| [Develop](develop.md) | Local Bun app, `rgit` on PATH, first web password |
+| [Develop](develop.md) | Local Bun app, `rgit` on PATH, first web password, `rgit login` |
 | [Ubuntu deploy](deploy-ubuntu.md) | Pack → push → install; Caddy; `rgit-web` user |
 | [Architecture](architecture/README.md) | Split with rgit, request flow, theming |
 | [Decisions](architecture/decisions/README.md) | Numbered records of the forks we took |

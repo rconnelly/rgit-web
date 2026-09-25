@@ -102,6 +102,70 @@ export function buildRoutes(): Record<string, unknown> {
           return json({ ok: true }, { headers: { "Set-Cookie": clearSessionCookie() } });
         }),
     },
+    "/api/auth/device/start": {
+      POST: (req: Request) =>
+        handle(async () => {
+          const body = await readBody<{ public_key?: string; hostname?: string }>(req);
+          if (!body.public_key?.trim()) {
+            throw new HttpError(400, "public_key is required");
+          }
+          const args = ["auth", "device", "start", "--public-key", body.public_key.trim()];
+          if (body.hostname?.trim()) args.push("--hostname", body.hostname.trim());
+          return json(await rgit({ args, anonymous: true }));
+        }),
+    },
+    "/api/auth/device/poll": {
+      POST: (req: Request) =>
+        handle(async () => {
+          const body = await readBody<{ device_code?: string }>(req);
+          if (!body.device_code?.trim()) {
+            throw new HttpError(400, "device_code is required");
+          }
+          return json(
+            await rgit({
+              args: ["auth", "device", "poll", "--device-code", body.device_code.trim()],
+              anonymous: true,
+            }),
+          );
+        }),
+    },
+    "/api/auth/device/approve": {
+      POST: (req: Request) =>
+        handle(async () => {
+          const { token } = await requireUser(req);
+          const body = await readBody<{ user_code?: string }>(req);
+          if (!body.user_code?.trim()) throw new HttpError(400, "user_code is required");
+          return json(
+            await rgit({
+              args: ["auth", "device", "approve", "--user-code", body.user_code.trim()],
+              token,
+            }),
+          );
+        }),
+    },
+    "/api/auth/device/deny": {
+      POST: (req: Request) =>
+        handle(async () => {
+          const { token } = await requireUser(req);
+          const body = await readBody<{ user_code?: string }>(req);
+          if (!body.user_code?.trim()) throw new HttpError(400, "user_code is required");
+          return json(
+            await rgit({
+              args: ["auth", "device", "deny", "--user-code", body.user_code.trim()],
+              token,
+            }),
+          );
+        }),
+    },
+    "/api/auth/device/:code": {
+      GET: (req: Request & { params: { code: string } }) =>
+        handle(async () => {
+          const { token } = await requireUser(req);
+          const code = req.params.code?.trim();
+          if (!code) throw new HttpError(400, "user_code is required");
+          return json(await rgit({ args: ["auth", "device", "show", "--user-code", code], token }));
+        }),
+    },
     "/api/repos": {
       GET: (req: Request) =>
         handle(async () => json(await rgit({ args: ["repo", "list"], ...actorOpts(req) }))),

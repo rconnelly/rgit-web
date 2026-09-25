@@ -6,7 +6,7 @@ import { BlobPage } from "@/pages/BlobPage";
 import { CommitPage } from "@/pages/CommitPage";
 import { CommitsPage } from "@/pages/CommitsPage";
 import { HomePage } from "@/pages/HomePage";
-import { LoginPage } from "@/pages/LoginPage";
+import { DeviceLoginPage } from "@/pages/DeviceLoginPage";
 import { SignupPage } from "@/pages/SignupPage";
 import { RepoLayout } from "@/pages/RepoLayout";
 import { RequestPage } from "@/pages/RequestPage";
@@ -22,6 +22,7 @@ export function App() {
     <AppShell>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/login/device" element={<DeviceLoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/:owner/:name" element={<RepoLayout />}>

@@ -20,7 +20,7 @@ bun test
 bun run dev
 ```
 
-Open http://127.0.0.1:3010. Sign in with the forge user and password, or set `RGIT_WEB_INVITE_CODE` and use `/signup`.
+Open http://127.0.0.1:3010. Sign in with the forge user and password, or set `RGIT_WEB_INVITE_CODE` and use `/signup`. From another terminal, `rgit login --host 127.0.0.1 --web http://127.0.0.1:3010` attaches an SSH key after you approve `/login/device`.
 
 ```bash
 export RABUN_GIT_ROOT=/path/to/data/git
@@ -36,7 +36,7 @@ rgit user add ada --admin --password 'correct-horse'
 | [Develop](doc/develop.md) | Local run, env, tests |
 | [Ubuntu deploy](doc/deploy-ubuntu.md) | Pack, bootstrap, Caddy, systemd |
 | [Architecture](doc/architecture/README.md) | Split with rgit, request path |
-| [Decisions](doc/architecture/decisions/README.md) | Why no DB, CLI backend, tokens vs keys, … |
+| [Decisions](doc/architecture/decisions/README.md) | Why no DB, CLI backend, tokens vs keys, device login, … |
 
 ## Deploy (Ubuntu)
 

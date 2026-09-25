@@ -1,6 +1,6 @@
 # Overview
 
-rgit-web is the **browser** for the rgit forge. It does not store users, repositories, or merge requests. Those live in the forge data root (`users.yaml`, `tokens.yaml`, `visibility.yaml`, bare repos, `refs/rabun/requests/*`) and are reached only by spawning `rgit --json`.
+rgit-web is the **browser** for the rgit forge. It does not store users, repositories, or merge requests. Those live in the forge data root (`users.yaml`, `tokens.yaml`, `devices.yaml`, `visibility.yaml`, bare repos, `refs/rabun/requests/*`) and are reached only by spawning `rgit --json`.
 
 `rgit view` stays a **loopback Zola** renderer for a local working tree. This app is the GitHub-style SPA: list, tree, blob, blame, log, and merge requests.
 
@@ -18,13 +18,15 @@ Browser
 
 Git clients
   SSH 2222  -->  rabun-git serve (russh)   clone / push / request refs
+Laptop CLI
+  HTTPS     -->  Caddy /api/auth/device/*  rgit login (then SSH as above)
 ```
 
 ## What lives where
 
 | Concern | Owner | This repo |
 | --- | --- | --- |
-| Passwords, tokens, ACL, visibility | rgit (`auth.rs`, `acl.rs`, `store`) | Cookie wrap + spawn flags |
+| Passwords, tokens, device grants, ACL, visibility | rgit (`auth.rs`, `device.rs`, `acl.rs`, `store`) | Cookie wrap + spawn flags |
 | Tree, blob, blame, log, refs, diff | rgit (`browse.rs` — the rgit-repo layer) | JSON → pages |
 | Merge requests | rgit (`request.rs`, git refs) | List, review, merge UI |
 | Presentation, theming, routes | rgit-web | All of `src/pages`, `styles/` |

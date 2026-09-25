@@ -1,22 +1,25 @@
 import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth";
 import { ApiError } from "@/lib/api";
+import { safeNext, signupPath } from "@/lib/redirect";
 
 export function LoginPage() {
   const { login, user } = useAuth();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const next = safeNext(params.get("next"));
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
   if (user) {
-    navigate("/", { replace: true });
+    navigate(next, { replace: true });
   }
 
   async function onSubmit(event: FormEvent) {
@@ -25,7 +28,7 @@ export function LoginPage() {
     setError(null);
     try {
       await login(name.trim(), password);
-      navigate("/");
+      navigate(next);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Sign in failed");
     } finally {
@@ -62,7 +65,7 @@ export function LoginPage() {
             </Button>
             <p className="text-muted-foreground text-sm">
               Need an account?{" "}
-              <Link to="/signup" className="underline">
+              <Link to={signupPath(params.get("next"))} className="underline">
                 Sign up with an invite code
               </Link>
               .{" "}

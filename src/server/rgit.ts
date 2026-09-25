@@ -103,6 +103,7 @@ function parseJson(text: string): unknown {
 
 function rgitStatus(message: string, exitCode: number): number {
   if (/already exists/i.test(message)) return 409;
+  if (/already used/i.test(message)) return 409;
   if (/already signed in/i.test(message)) return 400;
   if (/not found|no access|invalid token|invalid user or password|sign in/i.test(message)) {
     if (/invalid user or password|invalid token/i.test(message)) return 401;

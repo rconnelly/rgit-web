@@ -6,11 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth";
 import { api, ApiError } from "@/lib/api";
+import { loginPath, safeNext } from "@/lib/redirect";
 
 export function SignupPage() {
   const { signup, user } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
+  const next = safeNext(params.get("next"));
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -26,7 +28,7 @@ export function SignupPage() {
   }, []);
 
   if (user) {
-    navigate("/", { replace: true });
+    navigate(next, { replace: true });
   }
 
   async function onSubmit(event: FormEvent) {
@@ -39,7 +41,7 @@ export function SignupPage() {
     setError(null);
     try {
       await signup(name.trim(), password, invite.trim());
-      navigate("/");
+      navigate(next);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Sign up failed");
     } finally {
@@ -62,7 +64,7 @@ export function SignupPage() {
           {enabled === false ? (
             <p className="text-muted-foreground text-sm">
               Already have a login?{" "}
-              <Link to="/login" className="underline">
+              <Link to={loginPath(params.get("next"))} className="underline">
                 Sign in
               </Link>
               .
@@ -120,7 +122,7 @@ export function SignupPage() {
               </Button>
               <p className="text-muted-foreground text-sm">
                 Already have a login?{" "}
-                <Link to="/login" className="underline">
+                <Link to={loginPath(params.get("next"))} className="underline">
                   Sign in
                 </Link>
                 .

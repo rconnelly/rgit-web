@@ -9,7 +9,7 @@ GitHub and most Markdown previews render [Mermaid](https://mermaid.js.org/) in t
 | Page | What it covers |
 | --- | --- |
 | [Overview](./overview.md) | Process split, request path, what lives where |
-| [Auth](./auth.md) | Web passwords, bearer tokens, cookie, anonymous read |
+| [Auth](./auth.md) | Web passwords, bearer tokens, cookie, device key handshake, anonymous read |
 | [CLI](./cli.md) | `rgit --json` contract the server spawns |
 | [UI](./ui.md) | Routes, code viewer, DevLab tokens vs `rgit view` |
 | [Decisions](./decisions/README.md) | Numbered architecture decision records |

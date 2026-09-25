@@ -24,6 +24,11 @@ Tests inject `setRgitRunner` so `bun test` does not need a forge.
 | `POST /api/auth/signup` | invite check in-process, then `auth register --user --password` (anonymous) |
 | `GET /api/auth/me` | `auth whoami` |
 | `POST /api/auth/logout` | `auth logout` |
+| `POST /api/auth/device/start` | `auth device start --public-key [--hostname]` (anonymous) |
+| `POST /api/auth/device/poll` | `auth device poll --device-code` (anonymous) |
+| `GET /api/auth/device/:code` | `auth device show --user-code` |
+| `POST /api/auth/device/approve` | `auth device approve --user-code` |
+| `POST /api/auth/device/deny` | `auth device deny --user-code` |
 | `GET/POST /api/repos` | `repo list` / `repo create [--public]` |
 | `GET /api/repos/:owner/:name` | `repo show` |
 | `POST …/visibility` | `repo visibility --public\|--private` |

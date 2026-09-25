@@ -8,8 +8,9 @@ Related: [0004](./decisions/0004-burton-bun-react-not-zola-pages.md). Tokens liv
 
 | Path | Page |
 | --- | --- |
-| `/login` | Password sign-in |
-| `/signup` | Invite-gated account create (no email) |
+| `/login` | Password sign-in (`?next=` returns to a relative path) |
+| `/login/device` | Approve an `rgit login` device code (SSH public key handshake) |
+| `/signup` | Invite-gated account create (no email; `?next=` same as login) |
 | `/` | Repository list; create when signed in |
 | `/:owner/:name` | Tree at HEAD |
 | `/:owner/:name/tree/:ref/*` | Directory |

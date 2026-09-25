@@ -41,7 +41,7 @@ ensure_forge_group_write() {
     find "$root/$dir" -type f -exec chmod g+rw {} \; 2>/dev/null || true
     chgrp -R rabun-git "$root/$dir" 2>/dev/null || true
   done
-  chmod 0660 "$root"/tokens.yaml "$root"/access.yaml "$root"/visibility.yaml "$root"/users.yaml 2>/dev/null || true
+  chmod 0660 "$root"/tokens.yaml "$root"/access.yaml "$root"/visibility.yaml "$root"/users.yaml "$root"/devices.yaml 2>/dev/null || true
 }
 
 # Git 2.35+ refuses repos whose directory uid ≠ the process uid. Serve is

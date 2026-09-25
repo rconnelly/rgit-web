@@ -55,6 +55,7 @@ test("bootstrap and install require the rabun-git group before starting the unit
   expect(helper).toContain("safe.directory");
   expect(helper).toContain('chmod 0660 "$root"/tokens.yaml');
   expect(helper).toContain('"$root"/users.yaml');
+  expect(helper).toContain('"$root"/devices.yaml');
   expect(helper).toContain("216/GROUP");
   expect(bootstrap).toContain("ensure_rgit_web_unix_account");
   expect(bootstrap).not.toContain("warning: rabun-git user is missing");

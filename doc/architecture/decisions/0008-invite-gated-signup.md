@@ -2,7 +2,7 @@
 
 **Date:** 2026-09-25
 **Status:** accepted
-**Related:** [Auth](../auth.md), [0001](./0001-presentation-only-no-database.md), [0005](./0005-web-auth-is-tokens-ssh-stays-keys.md)
+**Related:** [Auth](../auth.md), [0001](./0001-presentation-only-no-database.md), [0005](./0005-web-auth-is-tokens-ssh-stays-keys.md), [0009](./0009-cli-web-sign-on-attaches-ssh-key.md)
 
 ## Context
 
@@ -17,4 +17,4 @@ The website needed a way to create forge users without email and without opening
 
 ## Consequences
 
-Operators open sign-up by setting the env on the web unit and restarting. Anyone with the code can create a login; rotate the code to stop new accounts. SSH still needs a key added later. Admins continue to use `rgit user add --admin`.
+Operators open sign-up by setting the env on the web unit and restarting. Anyone with the code can create a login; rotate the code to stop new accounts. The first SSH key is attached by `rgit login` (device grant) or by an admin `key add` / `key copy`. Admins continue to use `rgit user add --admin`.

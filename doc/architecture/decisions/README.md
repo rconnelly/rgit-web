@@ -14,6 +14,7 @@ Each file is one accepted choice. Numbers increase; do not reuse a number. Statu
 | [0006](./0006-public-repos-anonymous-read.md) | Public repos are anonymous-readable | accepted |
 | [0007](./0007-same-host-group-access.md) | Same-host group access to the forge root | accepted |
 | [0008](./0008-invite-gated-signup.md) | Invite-gated web sign-up; no email | accepted |
+| [0009](./0009-cli-web-sign-on-attaches-ssh-key.md) | CLI web sign-on attaches an SSH key | accepted |
 
 ## Template
 

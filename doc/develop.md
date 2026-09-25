@@ -29,7 +29,7 @@ Open http://127.0.0.1:3010. Bind override: `RGIT_WEB_PORT`, `RGIT_WEB_HOSTNAME`.
 
 `RGIT_WEB_INVITE_CODE` opens `/signup` (no email). Unset keeps it closed.
 
-Public repositories list and browse without a session (`rgit --anonymous`). Sign in to create repos, review, and merge.
+Public repositories list and browse without a session (`rgit --anonymous`). Sign in to create repos, review, and merge. `rgit login --web http://127.0.0.1:3010` opens `/login/device` and, after you approve, saves an SSH identity for `rgit origin …`.
 
 ## Tests
 
@@ -37,7 +37,7 @@ Public repositories list and browse without a session (`rgit --anonymous`). Sign
 
 - Markdown escaping (`src/lib/markdown.test.ts`)
 - CLI runner injection and missing-binary 503 (`src/server/rgit.test.ts`)
-- Health, anonymous `repo list`, login cookie, invite-gated signup (`src/server/app.test.ts`)
+- Health, anonymous `repo list`, login cookie, invite-gated signup, device start/poll/approve (`src/server/app.test.ts`)
 - Ubuntu script syntax (`deploy/ubuntu/scripts.test.ts`)
 
 Forge-side browse and tokens: `cargo test --locked` in the rgit checkout.
