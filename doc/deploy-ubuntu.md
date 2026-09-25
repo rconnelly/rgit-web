@@ -27,9 +27,11 @@ From this clone on a Linux pack host:
 Bootstrap:
 
 - Creates system user `rgit-web` and `/etc/rgit-web/`
-- Adds `rgit-web` to group `rabun-git` and group-writes the forge root
+- Requires Unix group `rabun-git`, adds `rgit-web` to it, and group-writes the forge root
 - Installs `rgit-web.service` and the Caddy snippet
 - Unpacks the archive to `/opt/rgit-web/releases/<tag>` and points `current`
+
+`SupplementaryGroups=rabun-git` is mandatory. If that group is missing, systemd exits `216/GROUP` (`Failed to determine supplementary groups: No such process`) and never binds 3010. Bootstrap and `install.sh` now fail before enabling the unit instead of warning and continuing.
 
 After bootstrap, set web passwords on the forge (operator session):
 
@@ -63,4 +65,4 @@ Inspect first:
 | `/var/lib/rabun-git` | Users, tokens, bare repos (owned by `rabun-git`, group-writable) |
 | `/etc/caddy/sites-enabled/rgit-web.caddy` | Virtual host → `127.0.0.1:3010` |
 
-The unit is `User=rgit-web` with `SupplementaryGroups=rabun-git` and `ReadWritePaths` including `/var/lib/rabun-git` so `rgit --json --token …` can issue tokens and merge requests. See [0007](architecture/decisions/0007-same-host-group-access.md).
+The unit is `User=rgit-web` with `SupplementaryGroups=rabun-git` and `ReadWritePaths` including `/var/lib/rabun-git` so `rgit --json --token …` can issue tokens and merge requests. See [0007](architecture/decisions/0007-same-host-group-access.md). Install and bootstrap refuse to start the unit if `getent group rabun-git` fails.

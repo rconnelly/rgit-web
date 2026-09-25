@@ -48,25 +48,22 @@ need rgit-web.env.example
 need rgit-web.caddy
 need install.sh
 need configure-caddy.sh
+need unix-account.sh
+# shellcheck source=unix-account.sh
+source "${SCRIPT_DIR}/unix-account.sh"
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update || echo "warning: apt-get update failed; continuing from existing package lists" >&2
 apt-get install -y --no-install-recommends ca-certificates curl tar caddy
 
-id -u rgit-web >/dev/null 2>&1 || useradd --system --home /var/lib/rgit-web --shell /usr/sbin/nologin rgit-web
-install -d -m 0755 -o rgit-web -g rgit-web /var/lib/rgit-web /var/cache/rgit-web
+ensure_rgit_web_unix_account
 install -d -m 0750 /etc/rgit-web
 
-if id -u rabun-git >/dev/null 2>&1; then
-  usermod -aG rabun-git rgit-web
-  chmod -R g+rX /var/lib/rabun-git 2>/dev/null || true
-  chmod g+rwX /var/lib/rabun-git 2>/dev/null || true
-  if [[ -f /etc/rabun-git/rabun-git.env ]]; then
-    chgrp rabun-git /etc/rabun-git/rabun-git.env || true
-    chmod 0640 /etc/rabun-git/rabun-git.env || true
-  fi
-else
-  echo "warning: rabun-git user is missing; install the forge before browsing repos" >&2
+chmod -R g+rX /var/lib/rabun-git 2>/dev/null || true
+chmod g+rwX /var/lib/rabun-git 2>/dev/null || true
+if [[ -f /etc/rabun-git/rabun-git.env ]]; then
+  chgrp rabun-git /etc/rabun-git/rabun-git.env || true
+  chmod 0640 /etc/rabun-git/rabun-git.env || true
 fi
 
 if [[ ! -f /etc/rgit-web/rgit-web.env ]]; then

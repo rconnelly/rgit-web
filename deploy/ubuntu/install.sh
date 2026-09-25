@@ -26,10 +26,13 @@ if [[ -z "$ARCHIVE_PATH" || ! -f "$ARCHIVE_PATH" ]]; then
   exit 1
 fi
 
-id -u rgit-web >/dev/null 2>&1 || {
-  echo "rgit-web user is missing; run bootstrap.sh first" >&2
+if [[ -z "$SCRIPT_DIR" || ! -f "${SCRIPT_DIR}/unix-account.sh" ]]; then
+  echo "missing unix-account.sh next to install.sh" >&2
   exit 1
-}
+fi
+# shellcheck source=unix-account.sh
+source "${SCRIPT_DIR}/unix-account.sh"
+ensure_rgit_web_unix_account
 
 RELEASES="${PREFIX}/releases"
 install -d -m 0755 "$PREFIX" "$RELEASES"
