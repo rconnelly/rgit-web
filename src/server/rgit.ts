@@ -3,6 +3,8 @@ import { join } from "node:path";
 import { HttpError } from "./http";
 
 const BINARY_NAMES = ["rgit", "rabun-git"] as const;
+const SYSTEM_FORGE_CONFIG = "/etc/rabun-git/rabun-git.toml";
+const SYSTEM_FORGE_ROOT = "/var/lib/rabun-git";
 
 export interface RgitRequest {
   args: string[];
@@ -40,13 +42,27 @@ export function resolveRgitBinary(env: NodeJS.ProcessEnv = process.env, cwd = pr
   return siblings.find((path) => existsSync(path)) ?? null;
 }
 
+/** Env for spawned `rgit`. System config without `RABUN_GIT_ROOT` would otherwise use cwd `data/git`. */
+export function rgitProcessEnv(env: NodeJS.ProcessEnv = process.env): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [key, value] of Object.entries(env)) {
+    if (value !== undefined) out[key] = value;
+  }
+  const config = out.RABUN_GIT_CONFIG?.trim() || out.RGIT_CONFIG?.trim();
+  if (!out.RABUN_GIT_ROOT?.trim() && config === SYSTEM_FORGE_CONFIG) {
+    out.RABUN_GIT_ROOT = SYSTEM_FORGE_ROOT;
+  }
+  return out;
+}
+
 export async function runRgitCli(request: RgitRequest): Promise<unknown> {
   const binary = resolveRgitBinary();
   if (!binary) {
     throw new HttpError(503, "rgit is not installed");
   }
+  const env = rgitProcessEnv();
   const args = [binary, "--json"];
-  const config = process.env.RABUN_GIT_CONFIG?.trim() || process.env.RGIT_CONFIG?.trim();
+  const config = env.RABUN_GIT_CONFIG?.trim() || env.RGIT_CONFIG?.trim();
   if (config) {
     args.push("--config", config);
   }
@@ -57,7 +73,7 @@ export async function runRgitCli(request: RgitRequest): Promise<unknown> {
   }
   args.push(...request.args);
 
-  const proc = Bun.spawn(args, { stdout: "pipe", stderr: "pipe" });
+  const proc = Bun.spawn(args, { stdout: "pipe", stderr: "pipe", env });
   const stdout = await new Response(proc.stdout).text();
   const stderr = await new Response(proc.stderr).text();
   const exitCode = await proc.exited;

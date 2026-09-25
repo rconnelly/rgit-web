@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import { HttpError } from "./http";
-import { rgit, setRgitRunner } from "./rgit";
+import { rgit, rgitProcessEnv, setRgitRunner } from "./rgit";
 
 test("injectable runner returns JSON", async () => {
   setRgitRunner(async (request) => {
@@ -11,6 +11,22 @@ test("injectable runner returns JSON", async () => {
   const data = (await rgit({ args: ["repo", "list"], anonymous: true })) as { repos: { name: string }[] };
   expect(data.repos[0]?.name).toBe("ada/app");
   setRgitRunner(null);
+});
+
+test("system forge config implies /var/lib/rabun-git when RABUN_GIT_ROOT is unset", () => {
+  const env = rgitProcessEnv({
+    PATH: "/usr/bin",
+    RABUN_GIT_CONFIG: "/etc/rabun-git/rabun-git.toml",
+  });
+  expect(env.RABUN_GIT_ROOT).toBe("/var/lib/rabun-git");
+});
+
+test("explicit RABUN_GIT_ROOT is kept", () => {
+  const env = rgitProcessEnv({
+    RABUN_GIT_CONFIG: "/etc/rabun-git/rabun-git.toml",
+    RABUN_GIT_ROOT: "/tmp/forge",
+  });
+  expect(env.RABUN_GIT_ROOT).toBe("/tmp/forge");
 });
 
 test("missing binary is 503", async () => {

@@ -22,6 +22,7 @@ test("systemd unit runs the prebuilt server bundle", () => {
   expect(unit).toContain("ExecStart=/opt/rgit-web/current/bin/bun dist/index.js");
   expect(unit).toContain("RGIT_WEB_PORT=3010");
   expect(unit).toContain("RABUN_GIT_CONFIG=/etc/rabun-git/rabun-git.toml");
+  expect(unit).toContain("RABUN_GIT_ROOT=/var/lib/rabun-git");
   expect(unit).toContain("ReadWritePaths=/var/lib/rgit-web /var/cache/rgit-web /var/lib/rabun-git");
   expect(unit).toContain("SupplementaryGroups=rabun-git");
 });

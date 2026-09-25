@@ -14,6 +14,7 @@ Environment=NODE_ENV=production
 Environment=RGIT_WEB_HOSTNAME=127.0.0.1
 Environment=RGIT_WEB_PORT=3010
 Environment=RABUN_GIT_CONFIG=/etc/rabun-git/rabun-git.toml
+Environment=RABUN_GIT_ROOT=/var/lib/rabun-git
 Environment=RGIT_BIN=/usr/local/bin/rgit
 Environment=XDG_CACHE_HOME=/var/cache/rgit-web
 EnvironmentFile=-/etc/rgit-web/version.env

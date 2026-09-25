@@ -44,6 +44,8 @@ exit
 
 `user add … --password` also works for a new forge login. SSH clone still uses keys; this password is only for the website.
 
+The website talks to **this host’s** forge (`RABUN_GIT_ROOT=/var/lib/rabun-git`). `rgit origin …` on a laptop is a different remote (for example damascus) and does not create a web.rgit.rs login.
+
 ## 3. Later deploys
 
 ```bash
