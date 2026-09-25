@@ -44,6 +44,13 @@ test("bootstrap and install require the rabun-git group before starting the unit
   expect(bootstrap).not.toContain("warning: rabun-git user is missing");
 });
 
+test("bootstrap tells the operator to set a web password inside rabun-git shell", () => {
+  const bootstrap = readFileSync(join(dir, "bootstrap.sh"), "utf8");
+  expect(bootstrap).toContain("operator: rabun-git shell");
+  expect(bootstrap).toContain("rabun-git user passwd NAME --password");
+  expect(bootstrap).not.toContain("rgit user passwd USER");
+});
+
 test("pack hoists HTML assets next to WorkingDirectory", () => {
   const pack = readFileSync(join(dir, "pack.sh"), "utf8");
   expect(pack).toContain('"$ROOT/build.ts" --server --outdir "$STAGE/dist"');

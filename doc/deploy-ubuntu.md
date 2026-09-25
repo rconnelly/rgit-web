@@ -33,12 +33,16 @@ Bootstrap:
 
 `SupplementaryGroups=rabun-git` is mandatory. If that group is missing, systemd exits `216/GROUP` (`Failed to determine supplementary groups: No such process`) and never binds 3010. Bootstrap and `install.sh` now fail before enabling the unit instead of warning and continuing.
 
-After bootstrap, set web passwords on the forge (operator session):
+After bootstrap, set web passwords from an operator session. Mutating `user` commands refuse to run as root or your login user so `/var/lib/rabun-git` stays owned by `rabun-git`:
 
 ```bash
-rabun-git shell
-rgit user passwd ada --password '…'
+rabun-git shell          # or: sudo rabun-git shell
+rabun-git user list
+rabun-git user passwd ada --password '…'
+exit
 ```
+
+`user add … --password` also works for a new forge login. SSH clone still uses keys; this password is only for the website.
 
 ## 3. Later deploys
 

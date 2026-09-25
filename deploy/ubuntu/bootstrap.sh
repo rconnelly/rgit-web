@@ -121,4 +121,5 @@ RGIT_WEB_ARCHIVE="$ARCHIVE_PATH" bash "${SCRIPT_DIR}/install.sh" ${TAG:+"$TAG"}
 echo
 echo "bootstrap complete."
 echo "  unit: systemctl status rgit-web"
-echo "  Set a web password on the forge: rgit user passwd USER --password …"
+echo "  operator: rabun-git shell"
+echo "  web password: rabun-git user passwd NAME --password …   # inside shell"
