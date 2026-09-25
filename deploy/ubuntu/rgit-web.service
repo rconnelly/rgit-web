@@ -9,6 +9,7 @@ Type=simple
 User=rgit-web
 Group=rgit-web
 SupplementaryGroups=rabun-git
+UMask=0002
 WorkingDirectory=/opt/rgit-web/current
 Environment=NODE_ENV=production
 Environment=RGIT_WEB_HOSTNAME=127.0.0.1

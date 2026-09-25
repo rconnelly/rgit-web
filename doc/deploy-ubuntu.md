@@ -27,7 +27,7 @@ From this clone on a Linux pack host:
 Bootstrap:
 
 - Creates system user `rgit-web` and `/etc/rgit-web/`
-- Requires Unix group `rabun-git`, adds `rgit-web` to it, and group-writes the forge root
+- Requires Unix group `rabun-git`, adds `rgit-web` to it, setgid-writes `repos/` / `runs/`, and sets `UMask=0002` so new owner dirs stay group-writable
 - Installs `rgit-web.service` and the Caddy snippet
 - Unpacks the archive to `/opt/rgit-web/releases/<tag>` and points `current`
 

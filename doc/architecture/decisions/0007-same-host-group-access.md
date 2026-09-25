@@ -24,4 +24,4 @@ rgit-web still passes `--token` / `--anonymous` so **forge ACL** applies even th
 
 ## Consequences
 
-Website and `serve` share one disk without sharing a uid. Hardening must keep the group tight (only `rabun-git` and `rgit-web`). A remote website talking to rgit over the network would need a different ADR (and must still not use Operator).
+Website and `serve` share one disk without sharing a uid. Directories `repos/` and `runs/` are setgid `2770` and the web unit uses `UMask=0002` so `rgit-web` can create `repos/<owner>/<name>.git`. Hardening must keep the group tight (only `rabun-git` and `rgit-web`). A remote website talking to rgit over the network would need a different ADR (and must still not use Operator).

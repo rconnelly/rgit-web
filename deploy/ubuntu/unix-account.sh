@@ -22,4 +22,24 @@ ensure_rgit_web_unix_account() {
     return 1
   fi
   usermod -aG rabun-git rgit-web
+  ensure_forge_group_write
+}
+
+# Group-write the forge paths rgit-web mutates (repo create, tokens, visibility).
+ensure_forge_group_write() {
+  local root=/var/lib/rabun-git
+  if [[ ! -d "$root" ]]; then
+    return 0
+  fi
+  chgrp rabun-git "$root" || true
+  chmod 2770 "$root" || true
+  local dir
+  for dir in keys repos runs; do
+    install -d -m 2770 -o rabun-git -g rabun-git "$root/$dir"
+    find "$root/$dir" -type d -exec chmod 2770 {} \; 2>/dev/null || true
+    find "$root/$dir" -type f -exec chmod g+rw {} \; 2>/dev/null || true
+    chgrp -R rabun-git "$root/$dir" 2>/dev/null || true
+  done
+  chmod 0660 "$root"/tokens.yaml "$root"/access.yaml "$root"/visibility.yaml 2>/dev/null || true
+  chmod 0640 "$root"/users.yaml 2>/dev/null || true
 }

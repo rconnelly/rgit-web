@@ -59,8 +59,6 @@ apt-get install -y --no-install-recommends ca-certificates curl tar caddy
 ensure_rgit_web_unix_account
 install -d -m 0750 /etc/rgit-web
 
-chmod -R g+rX /var/lib/rabun-git 2>/dev/null || true
-chmod g+rwX /var/lib/rabun-git 2>/dev/null || true
 if [[ -f /etc/rabun-git/rabun-git.env ]]; then
   chgrp rabun-git /etc/rabun-git/rabun-git.env || true
   chmod 0640 /etc/rabun-git/rabun-git.env || true
