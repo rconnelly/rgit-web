@@ -99,6 +99,15 @@ NEW_LINK="${PREFIX}/current.new"
 ln -sfn "$TARGET" "$NEW_LINK"
 mv -Tf "$NEW_LINK" "${PREFIX}/current"
 
+# Spawned rgit loads cwd `.env` when systemd env is not inherited (and when
+# `/etc/rabun-git` is not traversable). Keep this next to WorkingDirectory.
+{
+  printf 'RABUN_GIT_CONFIG=%s\n' "${RABUN_GIT_CONFIG:-/etc/rabun-git/rabun-git.toml}"
+  printf 'RABUN_GIT_ROOT=%s\n' "${RABUN_GIT_ROOT:-/var/lib/rabun-git}"
+} >"${PREFIX}/current/.env"
+chown rgit-web:rgit-web "${PREFIX}/current/.env"
+chmod 0640 "${PREFIX}/current/.env"
+
 mapfile -t dirs < <(find "$RELEASES" -mindepth 1 -maxdepth 1 -type d -printf '%T@\t%p\n' | sort -nr | cut -f2-)
 if ((${#dirs[@]} > KEEP_RELEASES)); then
   for ((i = KEEP_RELEASES; i < ${#dirs[@]}; i++)); do

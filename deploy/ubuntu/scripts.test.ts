@@ -27,6 +27,12 @@ test("systemd unit runs the prebuilt server bundle", () => {
   expect(unit).toContain("SupplementaryGroups=rabun-git");
 });
 
+test("install writes a forge .env next to WorkingDirectory", () => {
+  const install = readFileSync(join(dir, "install.sh"), "utf8");
+  expect(install).toContain("${PREFIX}/current/.env");
+  expect(install).toContain("RABUN_GIT_ROOT=");
+});
+
 test("install refreshes the systemd unit and requires an HTML shell", () => {
   const install = readFileSync(join(dir, "install.sh"), "utf8");
   expect(install).toContain('cp "${SCRIPT_DIR}/rgit-web.service" /etc/systemd/system/rgit-web.service');
