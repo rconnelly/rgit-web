@@ -1,9 +1,10 @@
 import { File, Folder } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router";
-import { api } from "@/lib/api";
+import { api, ApiError } from "@/lib/api";
 import { renderMarkdown } from "@/lib/markdown";
 import type { Blob, RepoInfo, Tree } from "@/lib/types";
+import { EmptyRepo, isUnbornRepoError } from "@/pages/EmptyRepo";
 
 export function TreePage() {
   const { owner = "", name = "", ref: paramRef, "*": splat } = useParams();
@@ -13,8 +14,15 @@ export function TreePage() {
   const [tree, setTree] = useState<Tree | null>(null);
   const [readme, setReadme] = useState<Blob | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const empty = !info.default_branch && !paramRef && !path;
 
   useEffect(() => {
+    if (empty) {
+      setTree({ repo: `${owner}/${name}`, ref: gitRef, path: "", entries: [] });
+      setReadme(null);
+      setError(null);
+      return;
+    }
     const params = new URLSearchParams({ ref: gitRef });
     if (path) params.set("path", path);
     api<Tree>(`/api/repos/${owner}/${name}/tree?${params}`)
@@ -30,11 +38,22 @@ export function TreePage() {
           setReadme(null);
         }
       })
-      .catch((err) => setError(err instanceof Error ? err.message : "Could not load tree"));
-  }, [owner, name, gitRef, path]);
+      .catch((err) => {
+        const message = err instanceof ApiError ? err.message : "Could not load tree";
+        if (isUnbornRepoError(message)) {
+          setTree({ repo: `${owner}/${name}`, ref: gitRef, path, entries: [] });
+          setError(null);
+          return;
+        }
+        setError(message);
+      });
+  }, [owner, name, gitRef, path, empty]);
 
   if (error) return <p className="text-destructive">{error}</p>;
   if (!tree) return <p className="text-muted-foreground">Loading…</p>;
+  if (tree.entries.length === 0 && !path) {
+    return <EmptyRepo info={info} />;
+  }
 
   const crumbs = path ? path.split("/").filter(Boolean) : [];
 
