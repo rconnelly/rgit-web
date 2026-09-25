@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* DevLab / Rabun tokens from rgit view (Zola theme). */
+:root {
+  --background: #faf3d8;
+  --foreground: #0c241c;
+  --card: #fff8e0;
+  --card-foreground: #0c241c;
+  --popover: #fff8e0;
+  --popover-foreground: #0c241c;
+  --primary: #1f4a38;
+  --primary-foreground: #fff8e0;
+  --secondary: #efe4b8;
+  --secondary-foreground: #0c241c;
+  --muted: #efe4b8;
+  --muted-foreground: #2f5c4a;
+  --accent: #efe4b8;
+  --accent-foreground: #1f4a38;
+  --destructive: #9b2c2c;
+  --border: #efe4b8;
+  --input: #efe4b8;
+  --ring: #1f4a38;
+  --gold: #c4a04a;
+  --code: #efe4b8;
+  --radius: 0.65rem;
+  --sidebar: #fff8e0;
+  --sidebar-foreground: #0c241c;
+  --sidebar-primary: #1f4a38;
+  --sidebar-primary-foreground: #fff8e0;
+  --sidebar-accent: #efe4b8;
+  --sidebar-accent-foreground: #1f4a38;
+  --sidebar-border: #efe4b8;
+  --sidebar-ring: #1f4a38;
+}
+
+.dark {
+  --background: #0c241c;
+  --foreground: #faf3d8;
+  --card: #143528;
+  --card-foreground: #faf3d8;
+  --popover: #143528;
+  --popover-foreground: #faf3d8;
+  --primary: #c4a04a;
+  --primary-foreground: #0c241c;
+  --secondary: #1f4a38;
+  --secondary-foreground: #faf3d8;
+  --muted: #1f4a38;
+  --muted-foreground: #7a9e6e;
+  --accent: #1f4a38;
+  --accent-foreground: #faf3d8;
+  --destructive: #e07070;
+  --border: #1f4a38;
+  --input: #1f4a38;
+  --ring: #c4a04a;
+  --gold: #c4a04a;
+  --code: #143528;
+  --sidebar: #143528;
+  --sidebar-foreground: #faf3d8;
+  --sidebar-primary: #c4a04a;
+  --sidebar-primary-foreground: #0c241c;
+  --sidebar-accent: #1f4a38;
+  --sidebar-accent-foreground: #faf3d8;
+  --sidebar-border: #1f4a38;
+  --sidebar-ring: #c4a04a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-code: var(--code);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+}
+
+.markdown-body {
+  @apply max-w-none text-sm leading-7;
+}
+.markdown-body h1 {
+  @apply mt-6 mb-3 text-2xl;
+}
+.markdown-body h2 {
+  @apply mt-5 mb-2 text-xl;
+}
+.markdown-body h3 {
+  @apply mt-4 mb-2 text-lg;
+}
+.markdown-body p {
+  @apply my-3;
+}
+.markdown-body a {
+  @apply text-primary underline underline-offset-4;
+}
+.markdown-body code {
+  @apply rounded bg-code px-1 py-0.5 font-mono text-[0.85em];
+}
+.markdown-body pre {
+  @apply my-3 overflow-x-auto rounded-lg bg-code p-4 font-mono text-sm;
+}
+.markdown-body pre code {
+  @apply bg-transparent p-0;
+}
+.markdown-body ul {
+  @apply my-3 list-disc pl-6;
+}
+.markdown-body ol {
+  @apply my-3 list-decimal pl-6;
+}
+.markdown-body blockquote {
+  @apply my-3 border-l-4 border-gold pl-4 text-muted-foreground;
+}
+
+.diff-add {
+  @apply bg-emerald-700/15;
+}
+.diff-del {
+  @apply bg-destructive/15;
+}

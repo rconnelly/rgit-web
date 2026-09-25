@@ -1,0 +1,13 @@
+@import "../styles/globals.css";
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    @apply m-0 min-w-[320px] bg-background font-sans text-foreground antialiased;
+  }
+}

@@ -1,0 +1,44 @@
+[Unit]
+Description=rgit-web
+Documentation=https://rgit.rs
+After=network-online.target rabun-git.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=rgit-web
+Group=rgit-web
+SupplementaryGroups=rabun-git
+WorkingDirectory=/opt/rgit-web/current
+Environment=NODE_ENV=production
+Environment=RGIT_WEB_HOSTNAME=127.0.0.1
+Environment=RGIT_WEB_PORT=3010
+Environment=RABUN_GIT_CONFIG=/etc/rabun-git/rabun-git.toml
+Environment=RGIT_BIN=/usr/local/bin/rgit
+Environment=XDG_CACHE_HOME=/var/cache/rgit-web
+EnvironmentFile=-/etc/rgit-web/version.env
+EnvironmentFile=-/etc/rgit-web/rgit-web.env
+EnvironmentFile=-/etc/rabun-git/rabun-git.env
+ExecStart=/opt/rgit-web/current/bin/bun dist/index.js
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+LimitNOFILE=65535
+CacheDirectory=rgit-web
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=rgit-web
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+LockPersonality=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+ReadWritePaths=/var/lib/rgit-web /var/cache/rgit-web /var/lib/rabun-git
+
+[Install]
+WantedBy=multi-user.target

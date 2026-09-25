@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Rabun">
+  <defs>
+    <linearGradient id="sky" x1="32" y1="0" x2="32" y2="36" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#c4a04a"/>
+      <stop offset="1" stop-color="#faf3d8"/>
+    </linearGradient>
+    <linearGradient id="water" x1="32" y1="36" x2="32" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#efe4b8"/>
+      <stop offset="0.45" stop-color="#7a9e6e"/>
+      <stop offset="1" stop-color="#2f5c4a"/>
+    </linearGradient>
+    <clipPath id="mark">
+      <circle cx="32" cy="32" r="32"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#mark)">
+    <rect width="64" height="36" fill="url(#sky)"/>
+    <rect y="36" width="64" height="28" fill="url(#water)"/>
+    <path fill="#143528" d="M4 40.5 22.5 16.5 32 30 43 14.5 60 40.5H4Z"/>
+    <path fill="#1f4a38" d="M18 40 27 28.5 32 34.5 38.5 26 48 40H18Z"/>
+    <path fill="#0c241c" d="M12.5 40.2 16 33.5 17.8 36.2 19.8 32.4 22.6 40.2H12.5Z"/>
+    <path fill="#0c241c" d="M41.2 40.2 44.4 33.2 46 36.4 48.2 31.8 52.2 40.2H41.2Z"/>
+    <g opacity=".5" transform="matrix(1 0 0 -.62 0 62.4)">
+      <path fill="#143528" d="M4 40.5 22.5 16.5 32 30 43 14.5 60 40.5H4Z"/>
+    </g>
+    <ellipse cx="32" cy="37.5" rx="20" ry="3.4" fill="#fff8e0" opacity=".85"/>
+  </g>
+</svg>

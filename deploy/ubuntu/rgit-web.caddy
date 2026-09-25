@@ -1,0 +1,17 @@
+# Installed to /etc/caddy/sites-enabled/rgit-web.caddy
+placeholder.example.com {
+	encode gzip zstd
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+	reverse_proxy 127.0.0.1:3010 {
+		health_uri /api/health
+		health_interval 10s
+		lb_try_duration 5s
+	}
+}
