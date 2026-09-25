@@ -32,8 +32,21 @@ test("signed-in welcome points at new repository", () => {
       createElement(WelcomeEmpty, { user: { user: "ada", admin: false, actor: "ada" } }),
     ),
   );
-  expect(html).toContain("First repo. Then the work.");
+  expect(html).toContain("Push. Review. Land.");
   expect(html).toContain("#new-repo");
   expect(html).toContain("Rgit is Git with etiquette.");
   expect(html).not.toContain("Create an account");
+});
+
+test("welcome renders extra content below the pitch", () => {
+  const html = renderToString(
+    createElement(
+      MemoryRouter,
+      null,
+      createElement(WelcomeEmpty, { user: null }, createElement("p", null, "repo-list")),
+    ),
+  );
+  expect(html).toContain("Code. Review. Land.");
+  expect(html).toContain("repo-list");
+  expect(html.indexOf("Code. Review. Land.")).toBeLessThan(html.indexOf("repo-list"));
 });

@@ -43,10 +43,6 @@ export function HomePage() {
     }
   }
 
-  if (repos === null && !error) {
-    return <p className="text-muted-foreground">Loading…</p>;
-  }
-
   const createCard = user ? (
     <CreateRepoCard
       user={user}
@@ -59,36 +55,33 @@ export function HomePage() {
     />
   ) : null;
 
-  if ((repos?.length ?? 0) === 0) {
-    return (
-      <WelcomeEmpty user={user} error={error}>
-        {createCard}
-      </WelcomeEmpty>
-    );
-  }
-
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_20rem]">
-      <div>
-        <p className="text-muted-foreground mb-1 text-xs font-semibold tracking-[0.12em] uppercase">Forge</p>
-        <h1 className="mb-4 text-3xl">Repositories</h1>
-        {error ? <p className="text-destructive mb-4 text-sm">{error}</p> : null}
-        <ul className="divide-border divide-y rounded-xl border bg-card">
-          {repos!.map((repo) => (
-            <li key={repo.name}>
-              <Link to={`/${repo.name}`} className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-accent/50">
-                <span className="flex items-center gap-2 font-medium">
-                  <GitFork className="size-4" />
-                  {repo.name}
-                </span>
-                <Badge variant={repo.visibility === "public" ? "gold" : "outline"}>{repo.visibility}</Badge>
-              </Link>
-            </li>
-          ))}
-        </ul>
+    <WelcomeEmpty user={user}>
+      <div className="grid gap-8 lg:grid-cols-[1fr_20rem]">
+        <div>
+          <h2 className="mb-4 text-3xl">Repositories</h2>
+          {error ? <p className="text-destructive mb-4 text-sm">{error}</p> : null}
+          {repos === null && !error ? <p className="text-muted-foreground">Loading…</p> : null}
+          {repos && repos.length > 0 ? (
+            <ul className="divide-border divide-y rounded-xl border bg-card">
+              {repos.map((repo) => (
+                <li key={repo.name}>
+                  <Link to={`/${repo.name}`} className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-accent/50">
+                    <span className="flex items-center gap-2 font-medium">
+                      <GitFork className="size-4" />
+                      {repo.name}
+                    </span>
+                    <Badge variant={repo.visibility === "public" ? "gold" : "outline"}>{repo.visibility}</Badge>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {repos && repos.length === 0 ? <p className="text-muted-foreground text-sm">No repositories yet.</p> : null}
+        </div>
+        {createCard}
       </div>
-      {createCard}
-    </div>
+    </WelcomeEmpty>
   );
 }
 

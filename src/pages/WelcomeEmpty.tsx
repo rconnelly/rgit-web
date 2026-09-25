@@ -15,7 +15,7 @@ const features = [
   { icon: KeyRound, title: "Invite-only", copy: "No email. Public or private, your call." },
 ];
 
-export function WelcomeEmpty({ user, error, children }: { user: SessionUser | null; error?: string | null; children?: ReactNode }) {
+export function WelcomeEmpty({ user, children }: { user: SessionUser | null; children?: ReactNode }) {
   const [signupOpen, setSignupOpen] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -26,8 +26,6 @@ export function WelcomeEmpty({ user, error, children }: { user: SessionUser | nu
 
   return (
     <div className="grid gap-10">
-      {error ? <p className="text-destructive text-sm">{error}</p> : null}
-
       <section className="relative min-h-[22rem] overflow-hidden rounded-2xl border bg-card shadow-sm lg:min-h-[26rem]">
         <img
           src={hero}
@@ -40,7 +38,7 @@ export function WelcomeEmpty({ user, error, children }: { user: SessionUser | nu
           <div className="max-w-xl">
             <p className="text-muted-foreground mb-2 text-xs font-semibold tracking-[0.12em] uppercase">Forge</p>
             <h1 className="text-4xl leading-[1.05] sm:text-5xl">
-              {user ? "First repo. Then the work." : "Code. Review. Land."}
+              {user ? "Push. Review. Land." : "Code. Review. Land."}
             </h1>
             <p className="text-foreground mt-4 max-w-md text-base leading-relaxed">
               {user
